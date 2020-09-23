@@ -1,0 +1,53 @@
+#+TITLE: Lunr.js serialize index
+#+TAGS: cryptokasten, lunr, lunrjs, fulltext-search
+#+PROPERTY: header-args:js :session *shell lunr-js-serialize-index js* :results silent raw
+#+OPTIONS: ^:nil
+
+[[file:https://img.shields.io/badge/dynamic/json.svg?url=https://api.github.com/users/cryptokasten&label=Cryptokasten&query=$.public_repos]]
+
+** System environment
+
+- Node 14.8.0
+
+Node modules:
+
+- lunr@2.3.8
+
+- lunr-languages@1.4.0
+
+** Build index
+
+#+BEGIN_SRC js
+const lunr = require("lunr")
+
+var idx = lunr(function () {
+  this.field('title')
+  this.field('body')
+
+  this.add({
+    "title": "Twelfth-Night",
+    "body": "If music be the food of love, play on: Give me excess of it…",
+    "author": "William Shakespeare",
+    "id": "1"
+  })
+})
+#+END_SRC
+
+** Serialize index
+
+#+BEGIN_SRC js :results replace code :exports both
+JSON.stringify(idx)
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC sh
+'{"version":"2.3.8","fields":["title","body"],"fieldVectors":[["title/1",[0,0.288,1,0.288]],["body/1",[2,0.288,3,0.288,4,0.288,5,0.288,6,0.288,7,0.288]]],"invertedIndex":[["excess",{"_index":7,"title":{},"body":{"1":{}}}],["food",{"_index":3,"title":{},"body":{"1":{}}}],["give",{"_index":6,"title":{},"body":{"1":{}}}],["love",{"_index":4,"title":{},"body":{"1":{}}}],["music",{"_index":2,"title":{},"body":{"1":{}}}],["night",{"_index":1,"title":{"1":{}},"body":{}}],["play",{"_index":5,"title":{},"body":{"1":{}}}],["twelfth",{"_index":0,"title":{"1":{}},"body":{}}]],"pipeline":["stemmer"]}'
+#+END_SRC
+
+** References
+
+1. https://github.com/cryptokasten/lunr-js-in-docker
+
+2. https://github.com/olivernn/lunr.js/
+
+3. https://lunrjs.com/guides/index_prebuilding.html
